@@ -12,7 +12,7 @@ const app = express()
 const static = require("./routes/static")
 
 app.get("/", function(reg, res){
-  res.render("index",{title: "Home"})
+  res.render("index",{ title: "Home"})
 })
 
 /* ***********************

@@ -1,0 +1,64 @@
+
+@media screen and (min-width: 700px){
+    body{
+        background-image: url("/images/site/small_check.jpg");
+        background-size: cover;
+        background-position: center;
+     
+
+
+    }
+ 
+    .bigest-container
+    {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        border: 5px solid green;
+        border-radius: 5px;
+        padding: 10px;
+        z-index: 1;
+        background-color: white;
+       margin-top: 20px;
+       margin-bottom: 20px;
+    }
+
+    nav{
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h2{
+        font-size: 2.1rem;
+        padding: 16px;
+    }
+
+    .container-card
+    {
+        width: 100%;
+        /* height: 400px; */
+        margin-left: auto;
+        margin-right: auto;
+        /* padding: 50px; */
+        grid-template-columns: auto auto;
+        
+    }
+
+    .img_delorean
+{
+    height: 250px;
+    
+    /* height: 100px; */
+    
+}
+
+.upgrade-reviwes
+{
+    display: grid;
+    grid-template-columns: auto  auto;
+
+}
+
+
+}

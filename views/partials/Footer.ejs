@@ -1,4 +1,5 @@
-<%-  const d = new date() 
-let year = d.getfullyear() %>
-
-<p class="copright"> &copy; <%=year %>, CSE 340 App</p>
+<% const d = new Date()
+let year = d.getFullYear() %>
+<footer>
+  <p class="copyright">&copy <%= year %>, CSE 340 App</p>
+</footer>
