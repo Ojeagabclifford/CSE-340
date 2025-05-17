@@ -1,0 +1,31 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "name": "render.com",
+            "database": "cse340_l7ab",
+            "username": "cse340br",
+            "connectString": "dpg-d0d98649c44c739vt5h0-a.singapore-postgres.render.com",
+            "connectionTimeout": 500
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "name": "render.com",
+            "connectString": "postgresql://cse340br:j2fa1agHdFclB3EFOvOW9kEglea3QsJL@dpg-d0d98649c44c739vt5h0-a.singapore-postgres.render.com/cse340_l7ab"
+        }
+    ]
+}

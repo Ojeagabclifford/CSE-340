@@ -20,14 +20,17 @@ app.use(expressLayouts);
 app.set("layout","./layouts/layout");
 app.use(express.static("public")); // Serve static files
 
+app.use(static);
+
 /* ***********************
+
  * Routes
  *************************/
 app.get("/", function (req, res) {
   res.render("index", { title: "Home" }); // Index route moved to the routes section
 });
 
-app.use(static); // Use the static route
+ // Use the static route
 
 /* ***********************
  * Local Server Information
