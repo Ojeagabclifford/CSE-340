@@ -11,6 +11,12 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute");
+const utilities = require("./utilities/index");
+
+// Inventory routes
+app.use("/inv", inventoryRoute)
 
 /* ***********************
  * Middleware
@@ -22,13 +28,21 @@ app.use(express.static("public")); // Serve static files
 
 app.use(static);
 
+
 /* ***********************
 
  * Routes
  *************************/
-app.get("/", function (req, res) {
-  res.render("index", { title: "Home" }); // Index route moved to the routes section
+app.get("/", baseController.buildHome)
+
+app.get("/crash", (req, res, next) => {
+  next(new Error("This is a test crash!"));
 });
+
+//404
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
 
  // Use the static route
 
@@ -44,4 +58,24 @@ const host = process.env.HOST
  *************************/
 app.listen(port, () => {
   console.log(`app Error: /opt/render/project/src/views/layouts/layout.ejs:19listening on ${host}:${port}`);
+});
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav();
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+  let message;
+  if (err.status == 404) {
+    message = err.message;
+  } else {
+    message = 'Oh no! There was a crash. Maybe try a different route?';
+  }
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  });
 });
