@@ -77,9 +77,7 @@ Util.buildInventoryDetails = async function(vehicle) {
       </div>
     `;
   } else {
-    const err = new Error("No matching vehicles could be found.");
-    Error.captureStackTrace(err, Util.buildClassificationGrid);
-    throw err;
+     grid = `<p>no </P>`
   }
   return grid;
 }
