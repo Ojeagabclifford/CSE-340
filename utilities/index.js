@@ -77,7 +77,7 @@ Util.buildInventoryDetails = async function(vehicle) {
       </div>
     `;
   } else {
-     grid = `<p>no </P>`
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid;
 }
