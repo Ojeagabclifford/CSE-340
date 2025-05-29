@@ -34,7 +34,7 @@ Util.buildClassificationGrid = async function(data){
   if(data.length > 0){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
-      grid += '<li>'
+      grid += '<li class="card_li">'
       grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
@@ -59,11 +59,40 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+
+Util.buildInventoryDetails = async function(vehicle) {
+  let grid
+  if(vehicle){
+   grid = `
+      <div class="inv-details">
+        
+        <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+        <div class=details_card>
+        <h3>${vehicle.inv_make} ${vehicle.inv_model} Details</h3>
+        <p><span>Price:</span> $${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>
+        <pclass="description"><span>Description: </span>${vehicle.inv_description}</p>
+        <p><span>Miles:</span> ${vehicle.inv_miles.toLocaleString()}</p>
+        <p><span>Color:</span> ${vehicle.inv_color} </p>
+        </div>
+      </div>
+    `;
+  } else {
+    grid = `<p>Vehicle not found.</p>`;
+  }
+  return grid;
+}
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
+
+
+
+
+
+
+
 Util.handleErrors = fn =>(req,res,next)=> Promise.resolve(fn(req,res,next)).catch(next)
 
 
