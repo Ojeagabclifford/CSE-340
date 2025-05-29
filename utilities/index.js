@@ -70,14 +70,16 @@ Util.buildInventoryDetails = async function(vehicle) {
         <div class=details_card>
         <h3>${vehicle.inv_make} ${vehicle.inv_model} Details</h3>
         <p><span>Price:</span> $${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>
-        <pclass="description"><span>Description: </span>${vehicle.inv_description}</p>
+        <p class="description"><span>Description: </span>${vehicle.inv_description}</p>
         <p><span>Miles:</span> ${vehicle.inv_miles.toLocaleString()}</p>
         <p><span>Color:</span> ${vehicle.inv_color} </p>
         </div>
       </div>
     `;
   } else {
-    grid = `<p>Vehicle not found.</p>`;
+    const err = new Error("No matching vehicles could be found.");
+    Error.captureStackTrace(err, Util.buildClassificationGrid);
+    throw err;
   }
   return grid;
 }

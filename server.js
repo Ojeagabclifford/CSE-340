@@ -78,11 +78,18 @@ app.listen(port, () => {
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav();
   let message;
+  let title;
 
+  if (err && err.status === 404) {
+    title = '404 Not Found';
+    message = err.message || 'Sorry, we appear to have lost that page.';
+  } else {
+    title = 'Server Error';
     message = 'Oh no! There was a crash. Maybe try a different route?';
-  
-  res.render("errors/error", {
-    title:  'Server Error',
+  }
+
+  res.status(err.status || 500).render("errors/error", {
+    title,
     message,
     nav
   });
