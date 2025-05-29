@@ -58,20 +58,6 @@ app.use(async (req, res, next) => {
  // Use the static route
 
 /* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT
-const host = process.env.HOST 
-
-/* ***********************
- * Log statement to confirm server operation
- *************************/
-app.listen(port, () => {
- console.log(`App listening on ${host || "localhost"}:${port}`);
-});
-
-/* ***********************
 * Express Error Handler
 * Place after all other middleware
 *************************/
@@ -93,4 +79,20 @@ app.use(async (err, req, res, next) => {
     message,
     nav
   });
+});
+
+
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = 5500
+const host = process.env.HOST 
+
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
+
+app.listen(port, () => {
+ console.log(`App listening on ${host || "localhost"}:${port}`);
 });
