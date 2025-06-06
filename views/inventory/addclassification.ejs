@@ -1,0 +1,26 @@
+<h1><%= title %></h1>
+ 
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/inv/addclassification" method="post">
+  <label for="classification_name">Classification Name</label>
+  <p>All Classification name must be 3-30 letters, no spaces.</p>
+  <input 
+    type="text" 
+    id="classification_name" 
+    name="classification_name" 
+    required value="<%= locals.classification_name %>"
+    pattern="^[A-Za-z]{3,30}$"
+    title="Classification name must be 3-30 letters, no spaces." >
+  <button type="submit">Add Classification</button>
+</form>
+
+
+
+<script src="/js/script.js"></script>

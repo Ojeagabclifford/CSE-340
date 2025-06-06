@@ -1,0 +1,46 @@
+<h1><%= title %></h1>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form action="/inv/addinventory" method="post">
+    
+    <%- classificationDrop %>
+
+    <label for="make">Make</label>
+    <input type="text" id="make" name="inv_make" required placeholder="min of 3 characters">
+
+    <label for="model">Model</label>
+    <input type="text" id="model" name="inv_model" required placeholder="min of 3 characters">
+
+    <label for="description">Description</label>
+    <textarea id="description" name="inv_description" required placeholder="Write a description" rows="4" cols="40"></textarea>
+
+    <label for="imagespath">Image Path</label>
+    <input type="text" id="imagespath" name="inv_image">
+
+    <label for="thumbnail">Thumbnail Path</label>
+    <input type="text" id="thumbnail" name="inv_thumbnail">
+
+    <label for="price">Price</label>
+    <input type="number" id="price" name="inv_price" required placeholder="decimal or integer">
+
+    <label for="year">Year</label>
+    <input type="text" id="year" name="inv_year" required placeholder="4-digit-year (e.g. 2027)">
+    <label for="miles">Miles</label>
+    <input type="number" id="miles" name="inv_miles" required placeholder="num">
+
+    <label for="color">Color</label>
+    <input type="text" id="color" name="inv_color" required>
+
+    <button type="submit">Add Inventory</button>
+</form>
+
+
+
+<script src="/js/script.js"></script>

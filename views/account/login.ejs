@@ -1,0 +1,31 @@
+<!-- Getting title -->
+
+<% if (title) { %>
+<h1><%= title %></h1>
+ <%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+<form id="loginForm" action="/account/login" method="post">
+    <label for="email">Email</label>
+     <input type="email" id="email" name="account_email" required placeholder="Enter a valid email address" value="<%= locals.account_email %>">
+    <label for="password">Password:</label>
+     <input type="password" id="password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" autocomplete="password">
+     <span id="pswdBtn">Show Password</span>
+    <button type="submit">Login</button>
+    <p> No Account? <a href="/account/register">SIGN UP</a>
+ </form>
+ 
+
+<% } else {
+ messages()
+} %>
+
+
+
+
+

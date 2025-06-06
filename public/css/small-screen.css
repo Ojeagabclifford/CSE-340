@@ -7,7 +7,7 @@ body
     padding: 0;
     margin: 0;
 }
-a{
+nav a{
     color: white;
     text-decoration: none;
 }
@@ -318,3 +318,21 @@ nav a:hover
 {
     background-color:blue;
 }
+
+
+form
+{
+    background-color: #1976d2;
+    /* display: block; */
+}
+
+input:required:invalid, input:focus:invalid {
+ background-color: rgba(21, 2, 9, 0.843);
+ color: #fff;
+
+}
+ input:required:valid {
+ background-color: rgba(128, 219, 118, 0.709);
+ 
+
+ }

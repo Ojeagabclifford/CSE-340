@@ -5,3 +5,76 @@
   box-sizing: border-box;
 }
 
+
+input{
+  display: block;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+}
+
+
+form
+{
+  /* width: 50%; */
+  max-width: 500px;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  border: 1px solid black;
+  box-shadow: 2px 2px 4px 3px black;
+}
+
+
+label
+{
+  font-size: large;
+}
+
+button{
+  padding: 5px;
+  width: 120px;
+  text-align: center;
+    font-size: large;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+  
+}
+
+p{
+   margin-left: auto;
+    margin-right: auto;
+}
+p a{
+  text-decoration: underline;
+}
+
+#pswdBtn {
+ 
+  text-decoration: underline;
+}
+
+
+.add_ivn_class
+{
+  display: flex;
+  flex-direction: column;
+}
+
+.notice {
+  background: #ffe0e0;
+  color: #900;
+  padding: 10px;
+  border: 1px solid #f00;
+  list-style: square;
+  margin-bottom: 1rem;
+}
