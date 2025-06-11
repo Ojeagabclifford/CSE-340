@@ -19,6 +19,7 @@ const utilities = require("./utilities/index");
 const session = require("express-session");
 const pool = require('./database/');
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * App Settings
@@ -47,6 +48,11 @@ app.use(session({
     sameSite: 'lax'
   }
 }));
+
+app.use(cookieParser())
+
+
+app.use(utilities.checkJWTToken)
 
 // Express Messages Middleware
 app.use(require('connect-flash')())

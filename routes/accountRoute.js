@@ -10,6 +10,9 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin));
 // Registration page
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
+router.get("/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccount))
 // Process the registration data
 // If you have validation, uncomment and use it:
 // router.post(
@@ -17,7 +20,7 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 //   regValidate.registrationRules(),
 //   regValidate.checkRegData,
 //   utilities.handleErrors(accountController.registerAccount)
-// );
+// );LSO0Y =mgLxxo
 
 // Without validation:
 router.post("/register", regValidate.registationRules(),
@@ -31,8 +34,8 @@ router.post("/register", regValidate.registationRules(),
 // Process the login attempt
 router.post(
   "/login",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  regValidate.loginRules(),
+  regValidate.checkLogData,
+ utilities.handleErrors(accountController.accountLogin)
 )
 module.exports = router;
