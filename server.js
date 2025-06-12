@@ -32,6 +32,7 @@ app.set("layout", "layouts/layout");
  * Middleware
  *************************/
 // For Render/Heroku: trust proxy for secure cookies
+
 app.set('trust proxy', 1);
 
 app.use(session({
@@ -49,11 +50,21 @@ app.use(session({
   }
 }));
 
+
+
 app.use(cookieParser())
 
 
 app.use(utilities.checkJWTToken)
-
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin;
+  res.locals.account_firstname = req.session.account_firstname;
+  res.locals.account_type = req.session.account_type;
+  res.locals.account_id = req.session.account_id;
+  res.locals.account_lastname = req.session.account_lastname;
+ res.locals.account_email = req.session.account_email;
+  next();
+}); 
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function(req, res, next){
@@ -87,7 +98,7 @@ app.get("/test", (req, res) => {
 app.get("/crash", (req, res, next) => {
   next(new Error("This is a test crash!"));
 });
-
+ 
 /* ***********************
  * 404 Handler (after all routes)
  *************************/

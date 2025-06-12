@@ -1,10 +1,16 @@
-<!-- Getting title -->
-
-<% if (title) { %>
 <h1><%= title %></h1>
- <%- messages() %>
+<%- messages() %>
 
+<% if (account_type === "Client") { %>
+  <h2>Welcome <%= account_firstname %></h2>
+<% } else if (account_type === "Employee" || account_type === "Admin") { %>
+  <h2>Welcome <%= account_firstname %></h2>
+  <h3>Inventory Management</h3>
+  <p>
+    <a href="/inv/management">Go to Inventory Management</a>
+  </p>
+<% } %>
 
-<% } else {
- messages()
-} %>
+<p>
+  <a href="/account/update/<%= account_id %>">Update Account Information</a>
+</p>

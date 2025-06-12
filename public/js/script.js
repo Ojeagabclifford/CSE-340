@@ -85,3 +85,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+console.log(req.session.account_password) 

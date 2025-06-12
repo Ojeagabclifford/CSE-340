@@ -18,7 +18,7 @@ validate.classificationRules = () => {
     throw new Error(" Class exists. Please add a different classification name")
   }
 }),
-  ]
+  ] 
 }
 
 

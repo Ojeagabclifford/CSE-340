@@ -1,0 +1,51 @@
+
+
+
+<h1><%= title %></h1>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<form id="updateAccountForm" action="/account/update" method="post">
+  <label for="account_firstname">First Name</label>
+  <input type="text" id="account_firstname" name="account_firstname" required value="<%= account_firstname %>">
+
+  <label for="account_lastname">Last Name</label>
+  <input type="text" id="account_lastname" name="account_lastname" required value="<%= account_lastname %>">
+ 
+  <label for="account_email">Email Address</label>
+  <input type="email" id="account_email" name="account_email" required value="<%= account_email %>">
+
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+ <button type="submit" id="updateBtn">Update Inventory</button>
+</form>
+
+<div class="space"></div>
+<!-- Second form: Change Password -->
+<form id="changePasswordForm" action="/account/update-password" method="post">
+  <p>
+    To change your password, enter a new password below.<br>
+    <strong>Password requirements:</strong> Minimum 12 characters, at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.
+  </p>
+  <label for="new_password">New Password</label>
+  <input
+    type="password"
+    id="new_password"
+    name="new_password"
+    required
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+    title="Password must be at least 12 characters and include uppercase, lowercase, number, and special character."
+    autocomplete="new-password"
+  >
+
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+  <button type="submit">Change Password</button>
+</form>
+

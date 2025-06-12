@@ -5,3 +5,4 @@ form.addEventListener("change", function () {
 });
 
     console.log(5)
+    console.log(account_password)  

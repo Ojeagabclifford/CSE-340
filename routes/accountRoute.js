@@ -6,9 +6,23 @@ const regValidate = require('../utilities/account-validation');
 
 // Login page
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
-
+router.get("/logout", accountController.logout);
 // Registration page
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
+
+
+router.get("/update/:account_id", utilities.handleErrors(accountController.buildByUpdateAcoount))
+
+router.post("/update/",
+  regValidate.updateRules(),
+  regValidate.checkupdData, 
+  
+   utilities.handleErrors(accountController.updateAcc))
+
+   router.post("/update-password",
+    regValidate.updatePasswordRules(),
+  regValidate.checkupdPasswordData,
+    utilities.handleErrors(accountController.updatepassword))
 
 router.get("/",
   utilities.checkLogin,
@@ -16,7 +30,7 @@ router.get("/",
 // Process the registration data
 // If you have validation, uncomment and use it:
 // router.post(
-//   "/register",
+//   "/register", 
 //   regValidate.registrationRules(),
 //   regValidate.checkRegData,
 //   utilities.handleErrors(accountController.registerAccount)
