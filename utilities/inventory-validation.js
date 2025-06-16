@@ -188,4 +188,16 @@ validate.checkUpdateData = async (req, res, next) => {
 
 
 
+validate.commentValidationRules = () => {
+  return [
+    body("comment_text")
+      .trim()
+      .notEmpty().withMessage("Comment cannot be empty.")
+      .isLength({ min: 3 }).withMessage("Comment must be at least 3 characters.")
+      .isLength({ max: 300 }).withMessage("Comment cannot exceed 300 characters."),
+  ];
+};
+
+
+
     module.exports = validate
