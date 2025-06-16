@@ -36,16 +36,22 @@ invCont.buildByInventoryId = async function (req, res, next) {
     if (!data) {
       return next(); // <-- fixed error handling
     }
+    const comments = await commentModel.getCommentsByInvId(inv_id);
     // const className = data[0].classification_name
     res.render("./inventory/detail", { // <-- removed ../
       title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
       nav,
-      detailHtml
+      errors:null,
+      detailHtml,
+       comments,
+  inv_id
     });
   } catch (error) {
     next(error);
   }
 }
+
+
 
 
 invCont.buildBymanagement= async function (req, res, next) {

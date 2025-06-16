@@ -148,5 +148,21 @@ async function updateInventory(
   }
 
 }
+// Get comments for a car
+async function getCommentsByInvId(inv_id) {
+  const result = await pool.query(
+    "SELECT c.*, a.account_firstname FROM comments c JOIN account a ON c.account_id = a.account_id WHERE inv_id = $1 ORDER BY comment_date DESC",
+    [inv_id]
+  );
+  return result.rows;
+}
 
-module.exports = {getClassifications, getInventoryByClassificationId,getInventoryById, classification, checkExistingclassification,inventory,updateInventory,deleteInventoryItem};
+// Add a comment
+async function addComment(inv_id, account_id, comment_text) {
+  const result = await pool.query(
+    "INSERT INTO comments (inv_id, account_id, comment_text) VALUES ($1, $2, $3) RETURNING *",
+    [inv_id, account_id, comment_text]
+  );
+  return result.rows[0];
+}
+module.exports = {getClassifications, getInventoryByClassificationId,getInventoryById, classification, checkExistingclassification,inventory,updateInventory,deleteInventoryItem,addComment,getCommentsByInvId};

@@ -63,7 +63,7 @@ async function updateacc(
       account_email,
       account_id
     ]);
-    return data.rows[0];
+    return data.rows[0]; 
   } catch (error) {
     console.error("model error: " + error);
   }

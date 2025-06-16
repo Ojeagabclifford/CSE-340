@@ -37,7 +37,7 @@ router.post("/update/",
   regValidate.addInventoryRules(),
  regValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory))
-  
+  router.post("/comment", utilities.checkLogin, utilities.handleErrors(invController.addComment));
 
  router.post("/delete", utilities.handleErrors(invController.deleteInventory))
 module.exports = router;
