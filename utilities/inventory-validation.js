@@ -198,6 +198,29 @@ validate.commentValidationRules = () => {
   ];
 };
 
+validate.checkCommentData = async (req, res, next) => {
+  const { inv_id } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    // Fetch car details and comments again for re-render
+    const invModel = require("../models/inventory-model");
+    const data = await invModel.getInventoryById(inv_id);
+    const comments = await invModel.getCommentsByInvId(inv_id);
+    let nav = await require(".").getNav();
+    const detailHtml = await require(".").buildInventoryDetails(data);
+
+    return res.render("inventory/detail", {
+      title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+      nav,
+      detailHtml,
+      comments,
+      inv_id,
+      errors
+    });
+  }
+  next();
+};
+
 
 
     module.exports = validate
