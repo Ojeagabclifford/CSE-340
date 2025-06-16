@@ -1,31 +1,34 @@
-<% if (title) { %>
-  <h1><%= title %></h1>
+<h1><%= title %></h1>
+
+<!-- Car Details -->
+<% if (detailHtml) { %>
   <div><%- detailHtml %></div>
-<% } else { %>
-  <%- messages() %>
 <% } %>
 
-<!-- Display comments -->
-<h3>Comments</h3>
-<ul>
-  <% if (comments && comments.length > 0) { %>
-    <% comments.forEach(comment => { %>
-      <li>
-        <strong><%= comment.account_firstname %>:</strong>
-        <%= comment.comment_text %>
-        <em>(<%= comment.comment_date.toLocaleString() %>)</em>
-      </li>
-    <% }) %>
-  <% } else { %>
-    <li>No comments yet.</li>
-  <% } %>
-</ul>
 
-<!-- Add comment form (show only if logged in) -->
 <% if (loggedin) { %>
-  <form action="/inv/comment" method="post">
+  <form class="add-comment-form" action="/inv/comment" method="post">
     <input type="hidden" name="inv_id" value="<%= inv_id %>">
     <textarea name="comment_text" required placeholder="Add your comment"></textarea>
     <button type="submit">Add Comment</button>
   </form>
 <% } %>
+
+<div class="comments-section">
+  <h3>Comments</h3>
+  <ul>
+    <% if (comments && comments.length > 0) { %>
+      <% comments.forEach(comment => { %>
+        <li>
+          <strong><%= comment.account_firstname %>:</strong>
+          <%= comment.comment_text %>
+          <em>(<%= comment.comment_date.toLocaleString() %>)</em>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No comments yet.</li>
+    <% } %>
+  </ul>
+</div>
+
+

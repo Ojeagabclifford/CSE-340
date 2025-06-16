@@ -1,6 +1,7 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
-let f=0;
+const commentModel = require("../models/inventory-model") // If your comment functions are in inventory-model.js
+
 const invCont = {}
 
 /* ***************************
@@ -10,7 +11,6 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
   const data = await invModel.getInventoryByClassificationId(classification_id)
   if (!data || data.length === 0) {
-    // No vehicles found for this classification
     let nav = await utilities.getNav()
     return res.render("inventory/classification", {
       title: "No Vehicles Found",
@@ -27,53 +27,62 @@ invCont.buildByClassificationId = async function (req, res, next) {
     grid,
   })
 }
+
+/* ***************************
+ *  Build inventory detail view (with comments)
+ * ************************** */
 invCont.buildByInventoryId = async function (req, res, next) {
   const inv_id = req.params.inv_id;
   try {
     const data = await invModel.getInventoryById(inv_id);
     let nav = await utilities.getNav();
-     const detailHtml = await utilities.buildInventoryDetails(data);
+    const detailHtml = await utilities.buildInventoryDetails(data);
     if (!data) {
-      return next(); // <-- fixed error handling
+      return next();
     }
-    const comments = await commentModel.getCommentsByInvId(inv_id);
-    // const className = data[0].classification_name
-    res.render("./inventory/detail", { // <-- removed ../
+    // Fetch comments for this car
+    const comments = await invModel.getCommentsByInvId(inv_id);
+
+    res.render("./inventory/detail", {
       title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
       nav,
-      errors:null,
+      errors: null,
       detailHtml,
-       comments,
-  inv_id
+      comments,
+      inv_id
     });
   } catch (error) {
     next(error);
   }
 }
 
-
-
-
-invCont.buildBymanagement= async function (req, res, next) {
-    let nav = await utilities.getNav();
-    // const className = data[0].classification_name
-    const classificationSelect = await utilities.buildClassificationList()
-    res.render("./inventory/management", { // <-- removed ../
-      title: "Vechicle Management",
-      nav,
-      classificationSelect
-    });
-  
+/* ***************************
+ *  Add comment to inventory
+ * ************************** */
+invCont.addComment = async function (req, res) {
+  const { inv_id, comment_text } = req.body;
+  const account_id = req.session.account_id; // Get from session!
+  await invModel.addComment(inv_id, account_id, comment_text);
+  res.redirect(`/inv/detail/${inv_id}`);
 }
+
+invCont.buildBymanagement = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  const classificationSelect = await utilities.buildClassificationList()
+  res.render("./inventory/management", {
+    title: "Vechicle Management",
+    nav,
+    classificationSelect
+  });
+}
+
 invCont.buildByAddClassificationId = async function (req, res, next) {
-    let nav = await utilities.getNav();
-    // const className = data[0].classification_name
-    res.render("./inventory/addclassification", { // <-- removed ../
-      title: "Add Classification",
-      nav,
-       errors: null,
-    });
-  
+  let nav = await utilities.getNav();
+  res.render("./inventory/addclassification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  });
 }
 
 invCont.buildByDeletion = async (req, res, next) => {
@@ -103,47 +112,32 @@ invCont.buildByDeletion = async (req, res, next) => {
   }
 };
 
-
-
-invCont.buildByaddInventory = async function (req, res, next) {
-    let nav = await utilities.getNav();
-    let classificationDrop = await utilities.buildClassificationList();
-  res.render("./inventory/addinventory", { 
-      title: "Add Inventory",
-      nav,
-      classificationDrop,
-       errors: null,
-    });
-}
-
 invCont.classification = async function (req, res, next) {
- 
-    let nav = await utilities.getNav();
-    const { classification_name } = req.body;
+  let nav = await utilities.getNav();
+  const { classification_name } = req.body;
 
-    const regResult = await invModel.classification(classification_name);
+  const regResult = await invModel.classification(classification_name);
 
-    if (regResult) {
-      req.flash(
-        "notice",
-        `Congratulations, the ${classification_name} classification has been added.`
-      );
-      return res.redirect("/inv/management");
-    } else {
-      req.flash("notice", "Sorry, the new classification failed.");
-      res.status(501).render("inventory/addclassification", {
-        title: "Add Classification",
-        nav,
-      });
-    }
-  } 
-
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, the ${classification_name} classification has been added.`
+    );
+    return res.redirect("/inv/management");
+  } else {
+    req.flash("notice", "Sorry, the new classification failed.");
+    res.status(501).render("inventory/addclassification", {
+      title: "Add Classification",
+      nav,
+    });
+  }
+}
 
 invCont.inventory = async function (req, res) {
   let nav = await utilities.getNav();
-   let classificationDrop = await utilities.buildClassificationList();
+  let classificationDrop = await utilities.buildClassificationList();
   let {
-        classification_id,
+    classification_id,
     inv_make,
     inv_model,
     inv_description,
@@ -180,11 +174,9 @@ invCont.inventory = async function (req, res) {
       title: "Add Inventory",
       nav,
       classificationDrop
-      
     });
   }
 };
-
 
 /* ***************************
  *  Return Inventory by Classification As JSON
@@ -227,6 +219,7 @@ invCont.editInventoryView = async function (req, res, next) {
     classification_id: itemData.classification_id, 
   })
 }
+
 invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
   let {
@@ -243,11 +236,9 @@ invCont.updateInventory = async function (req, res, next) {
     classification_id,
   } = req.body;
 
-  // Handle possible array values (from duplicate fields)
   if (Array.isArray(inv_id)) inv_id = inv_id[0];
   if (Array.isArray(classification_id)) classification_id = classification_id[0];
 
-  // Parse numeric fields
   inv_id = parseInt(inv_id, 10);
   inv_price = parseFloat(inv_price);
   inv_year = parseInt(inv_year, 10);
@@ -277,7 +268,6 @@ invCont.updateInventory = async function (req, res, next) {
       throw new Error("Update failed.");
     }
   } catch (error) {
-    // Rebuild classification select for the form
     const classificationSelect = await utilities.buildClassificationList(classification_id);
     const itemName = `${inv_make} ${inv_model}`;
     req.flash("notice", "Sorry, the update failed: " + error.message);
@@ -301,40 +291,27 @@ invCont.updateInventory = async function (req, res, next) {
   }
 };
 
-
 invCont.deleteInventory = async function (req, res, next) {
   let nav = await utilities.getNav();
   let {
     inv_id,
   } = req.body;
 
-  // Handle possible array values (from duplicate fields)
- 
-
-  // Parse numeric fields
   inv_id = parseInt(inv_id, 10);
 
-
   try {
-    const deleteResult = await invModel.deleteInventoryItem(
-      inv_id,
-      
-    );
+    const deleteResult = await invModel.deleteInventoryItem(inv_id);
 
     if (deleteResult) {
-     
       req.flash("notice", `The item was successfully delete.`);
       return res.redirect("/inv/management");
     } else {
       throw new Error("Delete failed.");
     }
   } catch (error) {
-
-     const inv_id = parseInt(req.params.inv_id, 10);
+    const inv_id = parseInt(req.params.inv_id, 10);
     let nav = await utilities.getNav();
     const itemData = await invModel.getInventoryById(inv_id);
-
-    
 
     const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
     res.render("./inventory/Delete-comfarmation", {
@@ -346,10 +323,8 @@ invCont.deleteInventory = async function (req, res, next) {
       inv_model: itemData.inv_model,
       inv_year: itemData.inv_year,
       inv_price: itemData.inv_price
-      
     });
   }
 };
 
- 
 module.exports = invCont;

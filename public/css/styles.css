@@ -83,3 +83,81 @@ p a{
 .space{
   margin:30px
 }
+/* Comments Section */
+.comments-section {
+  margin-top: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 700px;
+}
+
+.comments-section h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.comments-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.comments-section li {
+  background: #fff;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  border-left: 4px solid #0074d9;
+}
+
+.comments-section li strong {
+  color: #0074d9;
+  font-weight: 600;
+}
+
+.comments-section li em {
+  color: #888;
+  font-size: 0.95em;
+  margin-left: 0.5em;
+}
+
+.add-comment-form {
+  margin-top: 2rem;
+  background: #eef6fb;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  max-width: 700px;
+}
+
+.add-comment-form textarea {
+  width: 100%;
+  min-height: 70px;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  padding: 0.7rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  resize: vertical;
+}
+
+.add-comment-form button {
+  background: #0074d9;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-comment-form button:hover {
+  background: #005fa3;
+}
